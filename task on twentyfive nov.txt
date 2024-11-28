@@ -1,73 +1,225 @@
+Task 1:
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+struct Control{
+    int id;
+    string type;
+    string state;
+    bool operator==(Control& other){
+        return id==other.id&&type==other.type&&state==other.state;
+    }
+};
+int main(){
+vector<Control> controls ={
+    {1,"button","visible"},{2,"button","invisible"},{3,"button","disabled"},{4,"slider","visible"},{5,"slider","invisible"},{6,"slider","disabled"}
+};
+cout<<"Control details: " << endl;
+for_each(controls.begin(),controls.end(),[](Control& ctrl){cout << "id: "<<ctrl.id<<", type: "<<ctrl.type<<"state: "<<ctrl.state<< endl;});
+int searchId=5;
+auto foundControl=find_if(control.begin(),control.end(),[searchId](Control& ctrl){
+    return ctrl.id == searchId;});
+    if(foundControl!=control.end()){
+        cout << "found control of: "<< searchId<<": type: "<<foundControl->type<<", state: "<<foundControl->state<<endl;
+    }else{
+        cout << "Not found !" << endl;
+    }
+auto invisibleControl=find_if(controls.begin(),controls.end(),[](Control& ctrl){
+    return ctrl.state=="invisible";});
+    if(invisibleControl!=control.end()){
+        cout<<"first occurance of invisible control id: "<<invisibleControl->id<<", type: "<<invisibleControl->type<<endl;
+    }else{
+        cout << "No invisible control"<< endl;
+    }
+auto straightafter1stoccurance=adjacent_find(controls.begin(),controls.end(),[](Control& a, Control& b){
+    return a.state==b.state;});
+    if(straightafter1stoccurance!=control.end()){
+        cout << "straightafter1stoccurance: "<<straightafter1stoccurance->id<<"id2: " <<(straightafter1stoccurance+1)->id<< endl;
+    }else{
+        cout << "No straightafter1stoccurance" << endl;
+    }
+int visibleCount=count_if(controls.begin(),controls.end(),[](Control& ctrl){
+    return ctrl.state=="visible";
+});
+cout << "Count of visible one's: "<< visiblecount << endl;
+int disabledSliderCount=count_if(controls.begin(),controls.end(),[](Control& ctrl){
+    return ctrl.type=="slider"&&ctrl.state=="disabled";})
+    cout << "count of disabled sliders: " << disabledSliderCount << endl;
+    vector<Control> controlsToCompare={
+        {1,"button","visible"},{2,"button","invisible"},{3,"button","disabled"},{4,"slider","visible"}};
+    bool areEqual=equal(controls.begin(),controls.end()+4,controlsToCompare.begin());
+    cout << "comparrison of the vectors:"<<(areEqual?" identical":" not identical") <<endl;
+    cout << "Replacing all disabled controls" << endl;
+    replace_if(controls.begin(),controls.end(),[](Control& ctrl){
+        return ctrl.state=="disabled";},Control{0,"unknown","hidden"});
+    cout << "Updated controls" << endl;
+    for_each(controls.begin(),controls.end(),[](Control& ctrl){cout << "id: "<<ctrl.id<<", type: "<<ctrl.type<<"state: "<<ctrl.state<< endl;});
+return 0;
+}
+----------------------------------------------------------------
+task 2:
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm>
+using namespace std;
+int main(){
+    vector<string> dynamicWidgets={"Speedometer","Tachometer","FuelGauge","Temperature"};
+    set<string> staticWidgets={"Logo","WarningLights","BatteryIndicator"};
+    cout << "Dyanamic Widgets: "<< endl;
+    for(auto it=dynamicWidgets.begin();it!=dynamicWidgets.end();++it){
+        cout << *it << endl;
+    }
+    string searchWidgets="WarningLights";
+    auto foundStaticWidget=staticWidget.find(searchWidgets);
+    if(foundStaticWidget!=searchWidgets.end()){
+        cout << searchWidgets << "is static widget"<< endl;
+    }else{
+        cout << "it is not found in static widget" << endl;
+    }
+    vectors<string> allWidgets;
+    copy(dynamicWidgets.begin(),staticWidgets.end(),back_inserter(allWidgets));
+    allWidgets.insert(allWidgets.end(),staticWidgets.begin(),staticWidgets.end());
+    string widgetToFind="Tachometer";
+    auto foundWidget=find(allWidgets.begin(),allWidgets.end(),widgetToFind);
+    if(foundWidget!=allWidgets.end()){
+        cout << widgetToFind << " is found" << endl;
+    }else{
+        cout << widgetToFind << " is not found" << endl;
+    }
+    cout << "All widgets" << endl;
+    for(auto widget: allWidgets){
+        cout << widget << endl;
+    }
+    return 0;
+}
+----------------------------------------------------------------------------------------------------------
+task 3:
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
+#include <string>
+using namespace std;
+int main(){
+    vector<string> controlStates = {"visible", "invisible", "enabled", "disabled", "visible", "slider", "slider", "slider", "disabled"};
+    cout << "Initializing the control states:" << endl;
+    for(auto state: controlStates){
+        cout << state << " ";
+    }
+    cout << endl;
+    vector<string> backupControlStates=controlStates;
+    fill(controlStates.begin(),controlStates.end(),"disabled");
+    cout << "after disabling" << endl;
+    for(auto state: controlStates)
+    cout << state << " " << endl;
+    vector<string> randomStates={"visible","invisible","disabled"};
+    default_random_engine generator;
+    uniform_int_distribution<int> distribution(0, randomStates.size()-1);
+    for(auto state: controlStates){
+        state=randomStates[distribution(generator)];
+    }
+    cout << "After generating random states" << endl;
+    for(auto state: controlStates)
+    cout << state << " " << endl;
+    return 0;
+}
+
+------------------------------------------------------------------
+task 4:
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+struct Control{
+    int id;
+    string name;
+    bool operator<(Control& other)
+    return id<other.id;
+};
+int main(){
+    vector<Control> controlsA = {{1,"Button"},{3,"Slider"},{2,"Label"}};
+    vector<Control> controlB = {{4,"Checkbox"},{2,"Label"},{5,"TextBox"}};
+    sort(controlsA.begin(),controlsA.end());
+    sort(controlsB.begin(),controlsB.end());
+    stable_sort(controlsA.begin(),controlsA.end());
+    stable_sort(controlsB.begin(),controlsB.end());
+    int searchId =2;
+    auto lower=lower_bound(controlsA.begin(),controlsA.end(),control{searchId,""});
+    auto upper=upper_bound(controlsA.begin(),controlsA.end(),control{searchId,""});
+    if (lower != upper) {
+        std::cout << "Found control with ID " << searchId << ": " << lower->name << "\n";
+    } else {
+        std::cout << "Control with ID " << searchId << " not found.\n";
+    }
+    
+    vector<Control> mergedConttrols(controlsA.size()+controls.size());
+    merge(controlsA.begin(), controlsA.end(), controlsB.begin(), controlsB.end(),mergedControls.begin());
+    vector<Control> combinedControls = {{1, "Button"}, {3, "Slider"}, {2, "Label"}, {4, "Checkbox"}, {5, "TextBox"}};
+    sort(combinedControls.begin(), combinedControls.end());
+    inplace_merge(combinedControls.begin(), combinedControls.begin()+3,combinedControls.end());
+    vector<Control> uniqueControls;
+    vector<Control> commonControls;
+    set_union(controlsA.begin(), controlsA.end(), controlsB.begin(), controlsB.end(),back_inserter(commonControls),[](Control& a, Control& b){
+        return a.id<b.id;
+    })
+    set_intersection(controlsA.begin(), controlsA.end(), controlsB.begin(), controlsB.end(),back_inserter(uniqueControls),[](Control& a, Control& b){
+        return a.id<b.id;
+    })
+     std::cout << "Merged Controls:\n";
+    for (const auto& control : mergedControls) {
+        std::cout << "ID: " << control.id << ", Name: " << control.name << "\n";
+    }
+
+    std::cout << "\nUnique Controls:\n";
+    for (const auto& control : uniqueControls) {
+        std::cout << "ID: " << control.id << ", Name: " << control.name << "\n";
+    }
+
+    std::cout << "\nCommon Controls:\n";
+    for (const auto& control : commonControls) {
+        std::cout << "ID: " << control.id << ", Name: " << control.name << "\n";
+    }
+    return 0;
+}
+------------------------------------------------------------------------------------------------------------------
+task: 5
 #include <iostream>
 #include <vector>
 #include <string>
-
-class Menu {
-public:
-    std::string name;
-    std::vector<Menu> subMenus;
-
-    // Constructor
-    Menu(const std::string& menuName) : name(menuName) {}
-
-    // Add subMenu
-    void addSubMenu(const Menu& subMenu) {
-        subMenus.push_back(subMenu);
+using namespace std;
+class ModeObserver{
+    public:
+    virtual void update(string& mode)= 0;
+};
+class ModeSubject{
+    private:
+    vector<ModeObserver*> observers;
+    string mode;
+    public:
+    void attach(ModeObserver* observer){
+        observers.push_back(observer);
     }
-
-    // Display the current menu options
-    void displayMenu() const {
-        std::cout << "Current Menu: " << name << std::endl;
-        for (size_t i = 0; i < subMenus.size(); ++i) {
-            std::cout << i + 1 << ". " << subMenus[i].name << std::endl;
-        }
+    void setMode(string& newMode){
+        mode=newMode;
+        notifyObservers();
+    }
+    void notifyObservers(){
+        for(auto observer:observers) observer->update(mode);
     }
 };
-
-// Function to navigate the menu
-void navigateMenu(Menu& currentMenu) {
-    int choice = 0;
-    while (true) {
-        currentMenu.displayMenu();
-        std::cout << "Enter the option number to navigate (0 to go back): ";
-        std::cin >> choice;
-
-        if (choice == 0) {
-            return; // Go back to previous menu
-        } else if (choice > 0 && choice <= currentMenu.subMenus.size()) {
-            // Navigate to the selected sub-menu
-            navigateMenu(currentMenu.subMenus[choice - 1]);
-        } else {
-            std::cout << "Invalid option, please try again." << std::endl;
-        }
-    }
-}
-
-int main() {
-    // Create main menu and submenus
-    Menu mainMenu("Main Menu");
-    Menu settings("Settings");
-    Menu media("Media");
-
-    // Submenus for Settings
-    Menu displaySettings("Display Settings");
-    Menu audioSettings("Audio Settings");
-    settings.addSubMenu(displaySettings);
-    settings.addSubMenu(audioSettings);
-
-    // Submenus for Media
-    Menu radio("Radio");
-    Menu bluetoothAudio("Bluetooth Audio");
-    media.addSubMenu(radio);
-    media.addSubMenu(bluetoothAudio);
-
-    // Add main menu options
-    mainMenu.addSubMenu(settings);
-    mainMenu.addSubMenu(media);
-
-    // Start navigation
-    std::cout << "Welcome to the Menu Navigation System!" << std::endl;
-    navigateMenu(mainMenu);
-
+class Button:public ModeObserver{
+    if(mode=="Night") cout << "Button: Adjusting visibility for Night mode" << endl;
+    else cout << "Button: Adjusting visibility for Day mode." << endl;
+};
+int main(){
+    ModeSubject modeSubject;
+    Button buttonObserver;
+    modeSubject.attach(&buttonObserver);
+    modeSubject.setMode("Day");
+    modeSubject.setMode("Night");
     return 0;
 }
