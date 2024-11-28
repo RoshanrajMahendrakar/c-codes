@@ -1,0 +1,73 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+class Menu {
+public:
+    std::string name;
+    std::vector<Menu> subMenus;
+
+    // Constructor
+    Menu(const std::string& menuName) : name(menuName) {}
+
+    // Add subMenu
+    void addSubMenu(const Menu& subMenu) {
+        subMenus.push_back(subMenu);
+    }
+
+    // Display the current menu options
+    void displayMenu() const {
+        std::cout << "Current Menu: " << name << std::endl;
+        for (size_t i = 0; i < subMenus.size(); ++i) {
+            std::cout << i + 1 << ". " << subMenus[i].name << std::endl;
+        }
+    }
+};
+
+// Function to navigate the menu
+void navigateMenu(Menu& currentMenu) {
+    int choice = 0;
+    while (true) {
+        currentMenu.displayMenu();
+        std::cout << "Enter the option number to navigate (0 to go back): ";
+        std::cin >> choice;
+
+        if (choice == 0) {
+            return; // Go back to previous menu
+        } else if (choice > 0 && choice <= currentMenu.subMenus.size()) {
+            // Navigate to the selected sub-menu
+            navigateMenu(currentMenu.subMenus[choice - 1]);
+        } else {
+            std::cout << "Invalid option, please try again." << std::endl;
+        }
+    }
+}
+
+int main() {
+    // Create main menu and submenus
+    Menu mainMenu("Main Menu");
+    Menu settings("Settings");
+    Menu media("Media");
+
+    // Submenus for Settings
+    Menu displaySettings("Display Settings");
+    Menu audioSettings("Audio Settings");
+    settings.addSubMenu(displaySettings);
+    settings.addSubMenu(audioSettings);
+
+    // Submenus for Media
+    Menu radio("Radio");
+    Menu bluetoothAudio("Bluetooth Audio");
+    media.addSubMenu(radio);
+    media.addSubMenu(bluetoothAudio);
+
+    // Add main menu options
+    mainMenu.addSubMenu(settings);
+    mainMenu.addSubMenu(media);
+
+    // Start navigation
+    std::cout << "Welcome to the Menu Navigation System!" << std::endl;
+    navigateMenu(mainMenu);
+
+    return 0;
+}
